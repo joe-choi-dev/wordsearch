@@ -1,6 +1,8 @@
 /* eslint-disable */
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import GridCell from './GridCell';
+import GridRow from './GridRow';
 
 const useStyles = makeStyles(theme => ({
   contentHolder: {
@@ -13,22 +15,6 @@ const useStyles = makeStyles(theme => ({
   content: {
     width: '500px',
     height: '500px',
-  },
-  row: {
-    'width': '100%',
-    height: '10%',
-    'display': 'flex'
-  },
-  cell: {
-    'width': '10%',
-    height: '100%',
-    'font-size': '1.2em',
-    'font-weight': 'bold',
-    'text-align': 'center',
-    border: '1px solid black',
-    display: 'flex',
-    'flex-direction': 'column',
-    'justify-content': 'center'
   }
 }));
 
@@ -37,20 +23,10 @@ export default function GridContent() {
 
   return (
     <div className={classes.contentHolder}>
-       <div className={classes.content}>
-         <div className={classes.row}>
-            <div className={classes.cell}>a</div>
-            <div className={classes.cell}>b</div>
-            <div className={classes.cell}>a</div>
-            <div className={classes.cell}>b</div>
-            <div className={classes.cell}>a</div>
-            <div className={classes.cell}>b</div>
-            <div className={classes.cell}>a</div>
-            <div className={classes.cell}>b</div>
-            <div className={classes.cell}>a</div>
-            <div className={classes.cell}>b</div>
-         </div>
+      <div className={classes.content}>
+        <GridRow content={['b', 'c']}/>
       </div>
     </div>
   );
 }
+  
