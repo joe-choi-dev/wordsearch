@@ -9,7 +9,6 @@ const styles = theme => ({
         'font-size': '1.2em',
         'font-weight': 'bold',
         'text-align': 'center',
-        // border: '1px solid black',
         display: 'flex',
         'flex-direction': 'column',
         'justify-content': 'center'
