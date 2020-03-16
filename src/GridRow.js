@@ -12,12 +12,12 @@ const styles = theme => ({
 
 class GridRow extends React.Component {  
     render() {
-        const { classes, content = ['a'] }  = this.props;
+        const { classes, content = ['a'], id }  = this.props;
 
         let cells = [];
         content.forEach((value, i) => {
           cells.push(
-            <GridCell content={content[i]} key={i}/>
+            <GridCell content={content[i]} key={i} x={i} y={id}/>
           );
         });
 

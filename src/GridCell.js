@@ -9,7 +9,7 @@ const styles = theme => ({
         'font-size': '1.2em',
         'font-weight': 'bold',
         'text-align': 'center',
-        border: '1px solid black',
+        // border: '1px solid black',
         display: 'flex',
         'flex-direction': 'column',
         'justify-content': 'center'
@@ -19,19 +19,20 @@ const styles = theme => ({
 class GridCell extends React.Component {  
 
     constructor(props) {
-        super(props);
-        this.onClickCell = this.onClickCell.bind(this);
+      super(props);
+      this.onClickCell = this.onClickCell.bind(this);
     }
     
-      onClickCell() {
-        console.log("hello")
-      }
+    onClickCell() {
+      const { x, y }  = this.props;
+      console.log("coordinates: " + x + " " + y);
+    }
 
     render() {
-        const { classes, content, x, y }  = this.props;
-        return (
-            <div className={classes.cell} onClick={this.onClickCell}>{content}</div>
-        );
+      const { classes, content, x, y, key }  = this.props;
+      return (
+        <div className={classes.cell} onClick={this.onClickCell} key={key}>{content}</div>
+      );
     }
   }
   
