@@ -14,6 +14,8 @@ export class GridStore {
   @observable offsetX;
   @observable offsetY;
 
+  @observable sx;
+  @observable sy;
   @observable startX;
   @observable startY;
   @observable currentX;
@@ -29,6 +31,10 @@ export class GridStore {
       return coords[0] 
     else 
       return {};
+  }
+
+  isValidPath(x1, y1, x2, y2) {
+    return x1 === x2 || y1 === y2 || (Math.abs(x1-x2) === Math.abs(y1-y2));
   }
 
 }

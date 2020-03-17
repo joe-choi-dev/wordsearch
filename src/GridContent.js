@@ -75,11 +75,12 @@ class GridContent extends React.Component {
 
     const {offsetX, offsetY} = this.props.gridStore;
   
-    const {xCoor, yCoor} = this.props.gridStore.getNearestCoordinates(parseInt(e.clientX-offsetX),  parseInt(e.clientY-offsetY));
+    const {xCoor, yCoor, x, y} = this.props.gridStore.getNearestCoordinates(parseInt(e.clientX-offsetX),  parseInt(e.clientY-offsetY));
     if (xCoor && yCoor) {
       this.props.gridStore.startX = xCoor;
       this.props.gridStore.startY = yCoor;
-      console.log({ xCoor: xCoor, yCoor: yCoor });
+      this.props.gridStore.sx = x;
+      this.props.gridStore.sy = y;
     }
 
     // console.log({ offsetX: offsetX, offsetY: offsetY });
@@ -125,9 +126,8 @@ class GridContent extends React.Component {
       this.props.gridStore.currentX = parseInt(e.clientX-offsetX);
       this.props.gridStore.currentY = parseInt(e.clientY-offsetY);
       
-      const {xCoor, yCoor} = this.props.gridStore.getNearestCoordinates(this.props.gridStore.currentX, this.props.gridStore.currentY );
-      if (xCoor && yCoor) {
-        console.log('coord: ' + xCoor + ', ' + yCoor);
+      const {xCoor, yCoor, x, y} = this.props.gridStore.getNearestCoordinates(this.props.gridStore.currentX, this.props.gridStore.currentY );
+      if (xCoor && yCoor && this.props.gridStore.isValidPath(x, y, this.props.gridStore.sx, this.props.gridStore.sy)) {
         this.drawHighlights(this.props.gridStore.startX, 
           this.props.gridStore.startY, 
           xCoor, 
