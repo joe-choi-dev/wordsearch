@@ -6,7 +6,7 @@ export class GridStore {
   @observable letters = []; 
   @observable foundWords = [];
 
-  @observable coordinates = [];
+  @observable coordinates = []; //{x, y, canvasX, canvasY}
 
   // may eventually move to view state
   @observable isDown = false;
@@ -14,18 +14,13 @@ export class GridStore {
   @observable offsetX;
   @observable offsetY;
 
-  @observable sx;
-  @observable sy;
-  @observable startX;
-  @observable startY;
-  @observable currentX;
-  @observable currentY;
-  @observable endX;
-  @observable endY;
+  @observable start; //{x, y, canvasX, canvasY}
+  @observable current;
+  @observable end;
 
   getNearestCoordinates(x, y) {
     const coords = this.coordinates.filter(function (entry) { 
-      return ((x > entry.xCoor-20) && (x < 20+entry.xCoor)) && ((y > entry.yCoor-20) && (y < 20+entry.yCoor)); 
+      return ((x > entry.canvasX-20) && (x < 20+entry.canvasX)) && ((y > entry.canvasY-20) && (y < 20+entry.canvasY)); 
     });
     if (coords.length > 0) 
       return coords[0] 

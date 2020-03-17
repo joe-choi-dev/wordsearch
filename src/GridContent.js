@@ -8,11 +8,7 @@ import GridRow from './GridRow';
 const styles = theme => ({
   contentHolder: {},
   canvasWrap: {
-    // padding: '10px',
-    // width: '500px',
-    // height: '500px',
-    // backgroundColor: '#78C800',
-    // 'border-radius': '25px',
+    backgroundColor: 'red',
     position: 'relative'
   },
   canvas: {
@@ -22,7 +18,6 @@ const styles = theme => ({
     left: 0,
     'z-index': 1,
     opacity: 0.5
-    // backgroundColor: "yellow",
   },
   canvasWords: {
     margin: '10px',
@@ -52,19 +47,16 @@ class GridContent extends React.Component {
     this.onMouseMove = this.onMouseMove.bind(this);
 
     this.context = null // this will be initializaed in componentDidMount()
-
   }
 
   componentDidMount() {
     this.context = this.refs.canvas.getContext("2d")
-    // this.updateCanvas();
     this.drawGrid();
     
     //offset because of the margins
     const boundingRect = this.refs.canvas.getBoundingClientRect();
     this.props.gridStore.offsetX = boundingRect.left; 
     this.props.gridStore.offsetY = boundingRect.top; 
-    // this.drawBoard();
   }
 
   //turn on the coloring hints
@@ -75,16 +67,10 @@ class GridContent extends React.Component {
 
     const {offsetX, offsetY} = this.props.gridStore;
   
-    const {xCoor, yCoor, x, y} = this.props.gridStore.getNearestCoordinates(parseInt(e.clientX-offsetX),  parseInt(e.clientY-offsetY));
-    if (xCoor && yCoor) {
-      this.props.gridStore.startX = xCoor;
-      this.props.gridStore.startY = yCoor;
-      this.props.gridStore.sx = x;
-      this.props.gridStore.sy = y;
+    const start = this.props.gridStore.getNearestCoordinates(parseInt(e.clientX-offsetX),  parseInt(e.clientY-offsetY));
+    if (start.canvasX && start.canvasY) {
+      this.props.gridStore.start = start;
     }
-
-    // console.log({ offsetX: offsetX, offsetY: offsetY });
-    // console.log({ clientX: e.clientX, clientY: e.clientY });
   
     // Put your mousedown stuff here
     this.props.gridStore.isDown = true;
@@ -112,8 +98,6 @@ class GridContent extends React.Component {
 
   //turn on the coloring hints
   onMouseMove(e) {
-    //if (isMouseDown) //then its dragging
-    // tell the browser we're handling this event
     e.preventDefault();
     e.stopPropagation();
 
@@ -121,25 +105,19 @@ class GridContent extends React.Component {
 
     const {offsetX, offsetY} = this.props.gridStore;
   
-    if (this.props.gridStore.isDown && this.props.gridStore.startX && this.props.gridStore.startY) {
+    if (this.props.gridStore.isDown && this.props.gridStore.start) {
 
-      this.props.gridStore.currentX = parseInt(e.clientX-offsetX);
-      this.props.gridStore.currentY = parseInt(e.clientY-offsetY);
+      const currX = parseInt(e.clientX-offsetX);
+      const currY = parseInt(e.clientY-offsetY);
       
-      const {xCoor, yCoor, x, y} = this.props.gridStore.getNearestCoordinates(this.props.gridStore.currentX, this.props.gridStore.currentY );
-      if (xCoor && yCoor && this.props.gridStore.isValidPath(x, y, this.props.gridStore.sx, this.props.gridStore.sy)) {
-        this.drawHighlights(this.props.gridStore.startX, 
-          this.props.gridStore.startY, 
-          xCoor, 
-          yCoor);
+      const {x, y, canvasX, canvasY} = this.props.gridStore.getNearestCoordinates(currX, currY);
+      if (canvasX && canvasY && this.props.gridStore.isValidPath(x, y, this.props.gridStore.start.x, this.props.gridStore.start.y)) {
+        this.drawHighlights(this.props.gridStore.start.canvasX, 
+          this.props.gridStore.start.canvasY, 
+          canvasX, 
+          canvasY);
       }
-
-      // this.props.gridStore.startX && console.log({ startX: this.props.gridStore.startX, startY: this.props.gridStore.startY });
-      // this.props.gridStore.startX && console.log({ moveX: this.props.gridStore.currentX, moveY: this.props.gridStore.currentY });
     }
-
-    // console.log({ offsetX: offsetX, offsetY: offsetY });
-    // console.log({ clientX: e.clientX, clientY: e.clientY });
   }
 
   //verify if its correct
@@ -149,11 +127,15 @@ class GridContent extends React.Component {
     e.preventDefault();
     e.stopPropagation();
 
+    this.resetCanvas();
+
     this.props.gridStore.isDown = false;
     const {offsetX, offsetY} = this.props.gridStore;
   
-    this.props.gridStore.endX = parseInt(e.clientX-offsetX);
-    this.props.gridStore.endY = parseInt(e.clientY-offsetY);
+    const endX = parseInt(e.clientX-offsetX);
+    const endY = parseInt(e.clientY-offsetY);
+
+    this.props.gridStore.end = this.props.gridStore.getNearestCoordinates(endX, endY);
   }
 
   drawGrid() {
@@ -195,8 +177,8 @@ class GridContent extends React.Component {
       this.props.gridStore.coordinates.push({
         "x": col,
         "y": row,
-        "xCoor": col*cellWidth+cellWidth/2,
-        "yCoor": row*cellHeight+cellHeight/2
+        "canvasX": col*cellWidth+cellWidth/2,
+        "canvasY": row*cellHeight+cellHeight/2
       })
 
       ctx.fillText(letters[i], col*cellWidth+cellWidth/2, row*cellHeight+cellHeight/2); //20,20 -> 20,380
