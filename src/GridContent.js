@@ -15,6 +15,7 @@ const styles = theme => ({
   
 @inject("gridStore") @observer
 class GridContent extends React.Component {  
+
   render() {
     const { classes }  = this.props;
     return (

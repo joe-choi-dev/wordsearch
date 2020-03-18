@@ -1,5 +1,5 @@
 import {observable, action} from 'mobx';
-// import {WordSearchService} from './WordSearchService';
+import WordSearchService from './WordSearchService';
 
 export class GridStore {
   @observable solutions = [];
@@ -18,7 +18,17 @@ export class GridStore {
   @observable current;
   @observable end;
 
+  constructor () {
+    this.wordSearchService = new WordSearchService();
+  }
+
+  @action
+  getWordSearchViews() {
+    this.letters = this.wordSearchService.getWordSearchViews()[0];
+  }
+
   getNearestCoordinates(x, y) {
+    // console.log(this.wordSearchService.getWordSearchViews());
     const coords = this.coordinates.filter(function (entry) { 
       return ((x > entry.canvasX-20) && (x < 20+entry.canvasX)) && ((y > entry.canvasY-20) && (y < 20+entry.canvasY)); 
     });

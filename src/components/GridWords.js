@@ -23,9 +23,10 @@ class GridWords extends React.Component {
   }
 
   componentDidMount() {
-    this.context = this.refs.canvasWords.getContext("2d")
+    this.props.gridStore.getWordSearchViews();
+
+    this.context = this.refs.canvasWords.getContext("2d");
     this.drawGrid();
-    
     //offset because of the margins
     const boundingRect = this.refs.canvasWords.getBoundingClientRect();
     this.props.gridStore.offsetX = boundingRect.left; 
@@ -34,22 +35,21 @@ class GridWords extends React.Component {
 
   drawGrid() {
     const ctx = this.refs.canvasWords.getContext('2d');
-    var rows=10;
-    var cols=10;
-    var cellWidth=40;
-    var cellHeight=40;
+    var rows=8;
+    var cols=8;
+    var cellWidth=50;
+    var cellHeight=50;
 
-    var letters = ['g', 'b', 's', 'i', 'c', 'e', 'n', 'o', 'b' ,'a']
-      .concat(['o', 'b', 's', 'i', 'c', 'e', 'n', 'o', 'b' ,'a']) 
-      .concat(['o', 'b', 's', 'i', 'c', 'e', 'n', 'o', 'b' ,'a']) 
-      .concat(['d', 'b', 's', 'i', 'c', 'e', 'n', 'o', 'b' ,'a']) 
-      .concat(['g', 'b', 's', 'i', 'c', 'e', 'n', 'o', 'b' ,'a']) 
-      .concat(['g', 'b', 's', 'i', 'c', 'e', 'n', 'o', 'b' ,'a']) 
-      .concat(['g', 'b', 's', 'i', 'c', 'e', 'n', 'o', 'b' ,'a']) 
-      .concat(['g', 'b', 's', 'i', 'c', 'e', 'n', 'o', 'b' ,'a']) 
-      .concat(['g', 'b', 's', 'i', 'c', 'e', 'n', 'o', 'b' ,'a']) 
-      .concat(['g', 'b', 's', 'i', 'c', 'e', 'n', 'o', 'b' ,'a'])
-    letters = letters.map(function(x){ return x.toUpperCase() })
+    var letters = this.props.gridStore.letters.character_grid[0]
+      .concat(this.props.gridStore.letters.character_grid[1])
+      .concat(this.props.gridStore.letters.character_grid[2])
+      .concat(this.props.gridStore.letters.character_grid[3])
+      .concat(this.props.gridStore.letters.character_grid[4])
+      .concat(this.props.gridStore.letters.character_grid[5])
+      .concat(this.props.gridStore.letters.character_grid[6])
+      .concat(this.props.gridStore.letters.character_grid[7]);
+      
+    letters = letters.map(function(x){ return x.toUpperCase() });
     
     ctx.lineCap = "round";
     ctx.lineWidth=20;
