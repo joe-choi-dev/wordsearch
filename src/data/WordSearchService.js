@@ -1,8 +1,8 @@
 import {word_search_views} from './Duolingo.json';
 
+// Spec: You may bundle the game data inside your app instead of making a network request.
 export default class WordSearchService {
   getWordSearchViews() {
-    console.log(JSON.stringify(word_search_views))
     return word_search_views;
   }
 }
