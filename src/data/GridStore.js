@@ -2,10 +2,17 @@ import {observable, action} from 'mobx';
 import WordSearchService from './WordSearchService';
 
 export class GridStore {
-  @observable solutions = [];
-  @observable letters = []; 
-  @observable foundWords = [];
 
+  //data
+  @observable wordSearchViews = []; 
+
+
+  @observable currentWordIndex = 0;
+  @observable currentWordView;
+  // @observable currentCharacterGrid = [];
+  @observable currentWord = "";
+
+  //coordinates
   @observable coordinates = []; //{x, y, canvasX, canvasY}
 
   // may eventually move to view state
@@ -21,10 +28,15 @@ export class GridStore {
   constructor () {
     this.wordSearchService = new WordSearchService();
   }
-
+  
   @action
   getWordSearchViews() {
-    this.letters = this.wordSearchService.getWordSearchViews()[0];
+    this.wordSearchViews = this.wordSearchService.getWordSearchViews();
+    // console.log(this.wordSearchViews);
+    this.currentWordView = this.wordSearchViews[this.currentWordIndex];
+    // this.currentCharacterGrid = this.currentWordView.character_grid;
+    // this.currentWordLocations = this.currentWordView.word_locations;
+    this.currentWord = this.currentWordView.word;
   }
 
   getNearestCoordinates(x, y) {

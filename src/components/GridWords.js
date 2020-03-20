@@ -42,14 +42,15 @@ class GridWords extends React.Component {
     var cellWidth=50;
     var cellHeight=50;
 
-    var letters = this.props.gridStore.letters.character_grid[0]
-      .concat(this.props.gridStore.letters.character_grid[1])
-      .concat(this.props.gridStore.letters.character_grid[2])
-      .concat(this.props.gridStore.letters.character_grid[3])
-      .concat(this.props.gridStore.letters.character_grid[4])
-      .concat(this.props.gridStore.letters.character_grid[5])
-      .concat(this.props.gridStore.letters.character_grid[6])
-      .concat(this.props.gridStore.letters.character_grid[7]);
+    var letters = this.props.gridStore.currentWordView.character_grid.slice();
+    letters = letters[0]
+      .concat(letters[1])
+      .concat(letters[2])
+      .concat(letters[3])
+      .concat(letters[4])
+      .concat(letters[5])
+      .concat(letters[6])
+      .concat(letters[7])
       
     letters = letters.map(function(x){ return x.toUpperCase() });
     

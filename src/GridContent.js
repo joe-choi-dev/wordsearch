@@ -43,7 +43,10 @@ const styles = theme => ({
 class GridContent extends React.Component {  
 
   render() {
-    const { classes }  = this.props;
+    const { classes, gridStore }  = this.props;
+
+    // console.log(gridStore.currentWord);
+
     return (
       <div className={classes.contentHolder}>
         <MUIAppBar/>
@@ -52,7 +55,7 @@ class GridContent extends React.Component {
           <GridWords/>
         </div>
         <div className={classes.targets}>
-          <p>Please find 2 targets in the wordsearch that means "Hello"</p>
+          <p>Please find 1 word in the wordsearch that means "{gridStore.currentWord}"</p>
           <Button variant="outlined" className={classes.continueButton} color="primary" disabled={true}>
             Continue
           </Button>
