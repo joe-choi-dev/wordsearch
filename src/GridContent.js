@@ -1,15 +1,41 @@
 /* eslint-disable */
 import React from 'react';
+import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import { inject, observer } from 'mobx-react';
 import GridWords from './components/GridWords';
 import GridWordsChecker from './components/GridWordsChecker';
+import MUIAppBar from './components/MUIAppBar';
 
 const styles = theme => ({
   contentHolder: {},
   canvasWrap: {
     backgroundColor: 'red',
     position: 'relative'
+  },
+  targets: {
+    bottom: '0px', 
+    position: 'absolute',
+    left: '50%',
+    'margin-left': '-200px',
+    top: '10%',
+    'margin-top': '400px',
+    width: '400px',
+  },
+  targetList: {
+    display: 'block',
+    margin: '0 0 4px 0',
+    padding: '0',
+    'list-style-type': 'none',
+
+    backgroundColor: 'red'
+  },
+  targetWord: {
+    'font-size': '18px',
+    padding: '0 6px',
+    'line-height': '1.7em',
+
+    backgroundColor: 'blue'
   }
 });
   
@@ -20,9 +46,16 @@ class GridContent extends React.Component {
     const { classes }  = this.props;
     return (
       <div className={classes.contentHolder}>
+        <MUIAppBar/>
         <div className={classes.canvasWrap}>
           <GridWordsChecker/>
           <GridWords/>
+        </div>
+        <div className={classes.targets}>
+          <p>Please find 2 targets in the wordsearch that means "Hello"</p>
+          <Button variant="outlined" className={classes.continueButton} color="primary" disabled={true}>
+            Continue
+          </Button>
         </div>
       </div>
     );
