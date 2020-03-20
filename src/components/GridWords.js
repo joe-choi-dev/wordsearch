@@ -5,12 +5,14 @@ import { inject, observer } from 'mobx-react';
 
 const styles = theme => ({
   canvasWords: {
-    margin: '10px',
+    // margin: '10px',
     position: 'absolute',
-    top: 0,
-    left: 0,
+    left: '50%',
+    'margin-left': '-200px',
+    top: '5%',
+    'margin-top': '20px',
     'z-index': 0,
-    backgroundColor: "#78C800"
+    backgroundColor: "#B8F28A"
   }
 });
   
@@ -53,11 +55,11 @@ class GridWords extends React.Component {
     
     ctx.lineCap = "round";
     ctx.lineWidth=20;
-    ctx.font='100 14px Roboto';
+    ctx.font='700 14px Roboto';
     ctx.textAlign='center';
     ctx.textBaseline='middle';
 
-    ctx.fillStyle='black';
+    ctx.fillStyle='#3D3D3D';
     for(var i=0;i<letters.length;i++){
       var row=parseInt(i/cols); //rowNumber
       var col=i-row*cols;

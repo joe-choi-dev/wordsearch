@@ -5,10 +5,11 @@ import { inject, observer } from 'mobx-react';
 
 const styles = theme => ({
   canvas: {
-    margin: '10px',
     position: 'absolute',
-    top: 0,
-    left: 0,
+    left: '50%',
+    'margin-left': '-200px',
+    top: '5%',
+    'margin-top': '20px',
     'z-index': 1,
     opacity: 0.5
   }
