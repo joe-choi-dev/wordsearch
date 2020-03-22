@@ -11,6 +11,7 @@ export class GridStore {
   @observable currentWordView;
   // @observable currentCharacterGrid = [];
   @observable currentWord = "";
+  @observable totalCurrentSolutions = "";
 
   //coordinates
   @observable coordinates = []; //{x, y, canvasX, canvasY}
@@ -41,7 +42,7 @@ export class GridStore {
     // console.log(this.wordSearchViews);
     this.currentWordView = this.wordSearchViews[this.currentWordIndex];
     // this.currentCharacterGrid = this.currentWordView.character_grid;
-    // this.currentWordLocations = this.currentWordView.word_locations;
+    this.totalCurrentSolutions = Object.keys(this.currentWordView.word_locations).length;
     this.currentWord = this.currentWordView.word;
   }
 

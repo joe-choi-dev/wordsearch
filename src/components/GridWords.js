@@ -26,7 +26,15 @@ class GridWords extends React.Component {
 
   componentDidMount() {
     this.props.gridStore.getWordSearchViews();
+    const ctx = this.canvasRef ? this.canvasRef.current.getContext('2d') : {};
+    this.drawGrid(ctx);
+    // offset because of the margins
+    const boundingRect = this.canvasRef.current.getBoundingClientRect();
+    this.props.gridStore.offsetX = boundingRect.left; 
+    this.props.gridStore.offsetY = boundingRect.top; 
+  }
 
+  componentDidUpdate() {
     const ctx = this.canvasRef ? this.canvasRef.current.getContext('2d') : {};
     this.drawGrid(ctx);
     // offset because of the margins
@@ -36,6 +44,8 @@ class GridWords extends React.Component {
   }
 
   drawGrid(ctx) {
+    console.log("drawgrid");
+    ctx.clearRect(0, 0, 400, 400);
     var letters = this.props.gridStore.currentWordView.character_grid.slice();  
 
     var rows=letters.length;
@@ -64,7 +74,9 @@ class GridWords extends React.Component {
   }
 
   render() {
-    const { classes }  = this.props;
+    const { classes, gridStore }  = this.props;
+    const currentWordView = gridStore.currentWordView; //TODO: fix -- right now it just renders based on observable but isn't being used 
+
     return (
         <canvas className={classes.canvasWords} 
             ref={this.canvasRef}

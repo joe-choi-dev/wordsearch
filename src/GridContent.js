@@ -64,7 +64,7 @@ class GridContent extends React.Component {
           <GridWords/>
         </div>
         <div className={classes.targets}>
-          <p>Please find 1 word in the wordsearch that means "{gridStore.currentWord}"</p>
+          <p>Please find {gridStore.totalCurrentSolutions} word in the wordsearch that means "{gridStore.currentWord}"</p>
           <Button onClick={this.onClickContinue} variant="outlined" className={classes.continueButton} color="primary">
             Continue
           </Button>
