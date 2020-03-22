@@ -29,30 +29,19 @@ class GridWords extends React.Component {
 
     const ctx = this.canvasRef ? this.canvasRef.current.getContext('2d') : {};
     this.drawGrid(ctx);
-    //offset because of the margins
+    // offset because of the margins
     const boundingRect = this.canvasRef.current.getBoundingClientRect();
     this.props.gridStore.offsetX = boundingRect.left; 
     this.props.gridStore.offsetY = boundingRect.top; 
   }
 
   drawGrid(ctx) {
-    // const ctx = this.refs.canvasWords.getContext('2d');
-    var rows=8;
-    var cols=8;
-    var cellWidth=50;
-    var cellHeight=50;
+    var letters = this.props.gridStore.currentWordView.character_grid.slice();  
 
-    var letters = this.props.gridStore.currentWordView.character_grid.slice();
-    letters = letters[0]
-      .concat(letters[1])
-      .concat(letters[2])
-      .concat(letters[3])
-      .concat(letters[4])
-      .concat(letters[5])
-      .concat(letters[6])
-      .concat(letters[7])
-      
-    letters = letters.map(function(x){ return x.toUpperCase() });
+    var rows=letters.length;
+    var cols=letters[0].length;
+    var cellWidth=400/rows;
+    var cellHeight=400/cols;
     
     ctx.lineCap = "round";
     ctx.lineWidth=20;
@@ -61,16 +50,17 @@ class GridWords extends React.Component {
     ctx.textBaseline='middle';
 
     ctx.fillStyle='#3D3D3D';
-    for(var i=0;i<letters.length;i++){
-      var row=parseInt(i/cols); //rowNumber
-      var col=i-row*cols;
-      this.props.gridStore.coordinates.push({
-        "x": col,
-        "y": row,
-        "canvasX": col*cellWidth+cellWidth/2,
-        "canvasY": row*cellHeight+cellHeight/2
-      })
-      ctx.fillText(letters[i], col*cellWidth+cellWidth/2, row*cellHeight+cellHeight/2); //20,20 -> 20,380
+    for(var row=0;row<rows;row++) {
+      for(var col=0; col<cols;col++) {
+        console.log("hi")
+        this.props.gridStore.coordinates.push({
+          "x": col,
+          "y": row,
+          "canvasX": col*cellWidth+cellWidth/2,
+          "canvasY": row*cellHeight+cellHeight/2
+        })
+        ctx.fillText(letters[row][col], col*cellWidth+cellWidth/2, row*cellHeight+cellHeight/2); 
+      }
     }
   }
 
