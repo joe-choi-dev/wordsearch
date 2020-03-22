@@ -52,7 +52,6 @@ class GridWords extends React.Component {
     ctx.fillStyle='#3D3D3D';
     for(var row=0;row<rows;row++) {
       for(var col=0; col<cols;col++) {
-        console.log("hi")
         this.props.gridStore.coordinates.push({
           "x": col,
           "y": row,

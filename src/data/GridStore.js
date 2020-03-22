@@ -28,6 +28,12 @@ export class GridStore {
   constructor () {
     this.wordSearchService = new WordSearchService();
   }
+
+  @action
+  loadNextWordView() {
+    this.currentWordIndex++;
+    return this.getWordSearchViews();
+  }
   
   @action
   getWordSearchViews() {
