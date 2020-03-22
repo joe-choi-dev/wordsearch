@@ -21,22 +21,22 @@ class GridWords extends React.Component {
 
   constructor(props) {
     super(props);
-    this.context = null // this will be initializaed in componentDidMount()
+    this.canvasRef = React.createRef(); 
   }
 
   componentDidMount() {
     this.props.gridStore.getWordSearchViews();
 
-    this.context = this.refs.canvasWords.getContext("2d");
-    this.drawGrid();
+    const ctx = this.canvasRef ? this.canvasRef.current.getContext('2d') : {};
+    this.drawGrid(ctx);
     //offset because of the margins
-    const boundingRect = this.refs.canvasWords.getBoundingClientRect();
+    const boundingRect = this.canvasRef.current.getBoundingClientRect();
     this.props.gridStore.offsetX = boundingRect.left; 
     this.props.gridStore.offsetY = boundingRect.top; 
   }
 
-  drawGrid() {
-    const ctx = this.refs.canvasWords.getContext('2d');
+  drawGrid(ctx) {
+    // const ctx = this.refs.canvasWords.getContext('2d');
     var rows=8;
     var cols=8;
     var cellWidth=50;
@@ -78,7 +78,7 @@ class GridWords extends React.Component {
     const { classes }  = this.props;
     return (
         <canvas className={classes.canvasWords} 
-            ref="canvasWords" 
+            ref={this.canvasRef}
             width={400} 
             height={400}/>
     );
