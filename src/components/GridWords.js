@@ -21,22 +21,32 @@ class GridWords extends React.Component {
 
   constructor(props) {
     super(props);
-    this.context = null // this will be initializaed in componentDidMount()
+    this.canvasRef = React.createRef(); 
   }
 
   componentDidMount() {
     this.props.gridStore.getWordSearchViews();
 
-    this.context = this.refs.canvasWords.getContext("2d");
+    const ctx = this.canvasRef ? this.canvasRef.current.getContext('2d') : {};
     this.drawGrid();
     //offset because of the margins
-    const boundingRect = this.refs.canvasWords.getBoundingClientRect();
-    this.props.gridStore.offsetX = boundingRect.left; 
-    this.props.gridStore.offsetY = boundingRect.top; 
+    // const boundingRect = this.refs.canvasWords.getBoundingClientRect();
+    // this.props.gridStore.offsetX = boundingRect.left; 
+    // this.props.gridStore.offsetY = boundingRect.top; 
+  }
+
+  componentDidUpdate() {
+    // this.props.gridStore.getWordSearchViews();
+    const ctx = this.canvasRef ? this.canvasRef.current.getContext('2d') : {};
+    ctx.clearRect(0, 0, 400, 400);
+
+    this.drawGrid();
+    //offset because of the margins
   }
 
   drawGrid() {
-    const ctx = this.refs.canvasWords.getContext('2d');
+    const ctx = this.canvasRef ? this.canvasRef.current.getContext('2d') : {};
+    
     var rows=8;
     var cols=8;
     var cellWidth=50;
@@ -50,9 +60,10 @@ class GridWords extends React.Component {
       .concat(letters[4])
       .concat(letters[5])
       .concat(letters[6])
-      .concat(letters[7])
-      
-    letters = letters.map(function(x){ return x.toUpperCase() });
+      .concat(letters[7]);
+
+    console.log("letters: " + letters);
+    // letters = letters.map(function(x){ return x.toUpperCase() });
     
     ctx.lineCap = "round";
     ctx.lineWidth=20;
@@ -75,10 +86,12 @@ class GridWords extends React.Component {
   }
 
   render() {
-    const { classes }  = this.props;
+    console.log("render gridWords");
+    const { classes, gridStore }  = this.props;
+    const currentWordView = this.props.gridStore.currentWordView;
     return (
         <canvas className={classes.canvasWords} 
-            ref="canvasWords" 
+            ref={this.canvasRef}
             width={400} 
             height={400}/>
     );

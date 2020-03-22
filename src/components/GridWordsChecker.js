@@ -109,6 +109,8 @@ class GridWordsChecker extends React.Component {
 
   render() {
     const { classes }  = this.props;
+
+    console.log("render gridWordChecker");
     return (
         <canvas className={classes.canvas} 
             onMouseDown={this.onMouseDown}

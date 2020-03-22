@@ -1,4 +1,4 @@
-import {observable, action} from 'mobx';
+import {observable, action, computed} from 'mobx';
 import WordSearchService from './WordSearchService';
 
 export class GridStore {
@@ -28,11 +28,16 @@ export class GridStore {
   constructor () {
     this.wordSearchService = new WordSearchService();
   }
+
+  @action
+  updateToNextWordSearchView() {
+    this.currentWordIndex++;
+    return this.getWordSearchViews();
+  }
   
   @action
   getWordSearchViews() {
     this.wordSearchViews = this.wordSearchService.getWordSearchViews();
-    // console.log(this.wordSearchViews);
     this.currentWordView = this.wordSearchViews[this.currentWordIndex];
     // this.currentCharacterGrid = this.currentWordView.character_grid;
     // this.currentWordLocations = this.currentWordView.word_locations;
