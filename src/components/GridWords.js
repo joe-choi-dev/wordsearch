@@ -21,37 +21,37 @@ class GridWords extends React.Component {
 
   constructor(props) {
     super(props);
-    this.context = null // this will be initializaed in componentDidMount()
+    this.canvasRef = React.createRef(); 
   }
 
   componentDidMount() {
     this.props.gridStore.getWordSearchViews();
-
-    this.context = this.refs.canvasWords.getContext("2d");
-    this.drawGrid();
-    //offset because of the margins
-    const boundingRect = this.refs.canvasWords.getBoundingClientRect();
+    const ctx = this.canvasRef ? this.canvasRef.current.getContext('2d') : {};
+    this.drawGrid(ctx);
+    // offset because of the margins
+    const boundingRect = this.canvasRef.current.getBoundingClientRect();
     this.props.gridStore.offsetX = boundingRect.left; 
     this.props.gridStore.offsetY = boundingRect.top; 
   }
 
-  drawGrid() {
-    const ctx = this.refs.canvasWords.getContext('2d');
-    var rows=8;
-    var cols=8;
-    var cellWidth=50;
-    var cellHeight=50;
+  componentDidUpdate() {
+    const ctx = this.canvasRef ? this.canvasRef.current.getContext('2d') : {};
+    this.drawGrid(ctx);
+    // offset because of the margins
+    const boundingRect = this.canvasRef.current.getBoundingClientRect();
+    this.props.gridStore.offsetX = boundingRect.left; 
+    this.props.gridStore.offsetY = boundingRect.top; 
+  }
 
-    var letters = this.props.gridStore.letters.character_grid[0]
-      .concat(this.props.gridStore.letters.character_grid[1])
-      .concat(this.props.gridStore.letters.character_grid[2])
-      .concat(this.props.gridStore.letters.character_grid[3])
-      .concat(this.props.gridStore.letters.character_grid[4])
-      .concat(this.props.gridStore.letters.character_grid[5])
-      .concat(this.props.gridStore.letters.character_grid[6])
-      .concat(this.props.gridStore.letters.character_grid[7]);
-      
-    letters = letters.map(function(x){ return x.toUpperCase() });
+  drawGrid(ctx) {
+    console.log("drawgrid");
+    ctx.clearRect(0, 0, 400, 400);
+    var letters = this.props.gridStore.currentWordView.character_grid.slice();  
+
+    var rows=letters.length;
+    var cols=letters[0].length;
+    var cellWidth=400/rows;
+    var cellHeight=400/cols;
     
     ctx.lineCap = "round";
     ctx.lineWidth=20;
@@ -60,24 +60,26 @@ class GridWords extends React.Component {
     ctx.textBaseline='middle';
 
     ctx.fillStyle='#3D3D3D';
-    for(var i=0;i<letters.length;i++){
-      var row=parseInt(i/cols); //rowNumber
-      var col=i-row*cols;
-      this.props.gridStore.coordinates.push({
-        "x": col,
-        "y": row,
-        "canvasX": col*cellWidth+cellWidth/2,
-        "canvasY": row*cellHeight+cellHeight/2
-      })
-      ctx.fillText(letters[i], col*cellWidth+cellWidth/2, row*cellHeight+cellHeight/2); //20,20 -> 20,380
+    for(var row=0;row<rows;row++) {
+      for(var col=0; col<cols;col++) {
+        this.props.gridStore.coordinates.push({
+          "x": col,
+          "y": row,
+          "canvasX": col*cellWidth+cellWidth/2,
+          "canvasY": row*cellHeight+cellHeight/2
+        })
+        ctx.fillText(letters[row][col], col*cellWidth+cellWidth/2, row*cellHeight+cellHeight/2); 
+      }
     }
   }
 
   render() {
-    const { classes }  = this.props;
+    const { classes, gridStore }  = this.props;
+    const currentWordView = gridStore.currentWordView; //TODO: fix -- right now it just renders based on observable but isn't being used 
+
     return (
         <canvas className={classes.canvasWords} 
-            ref="canvasWords" 
+            ref={this.canvasRef}
             width={400} 
             height={400}/>
     );

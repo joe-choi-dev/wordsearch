@@ -42,8 +42,20 @@ const styles = theme => ({
 @inject("gridStore") @observer
 class GridContent extends React.Component {  
 
+  constructor(props) {
+    super(props);
+    this.onClickContinue = this.onClickContinue.bind(this);
+  }
+
+  onClickContinue() {
+    this.props.gridStore.loadNextWordView();
+  }
+
   render() {
-    const { classes }  = this.props;
+    const { classes, gridStore }  = this.props;
+
+    // console.log(gridStore.currentWord);
+
     return (
       <div className={classes.contentHolder}>
         <MUIAppBar/>
@@ -52,8 +64,8 @@ class GridContent extends React.Component {
           <GridWords/>
         </div>
         <div className={classes.targets}>
-          <p>Please find 2 targets in the wordsearch that means "Hello"</p>
-          <Button variant="outlined" className={classes.continueButton} color="primary" disabled={true}>
+          <p>Please find {gridStore.totalCurrentSolutions} word in the wordsearch that means "{gridStore.currentWord}"</p>
+          <Button onClick={this.onClickContinue} variant="outlined" className={classes.continueButton} color="primary">
             Continue
           </Button>
         </div>

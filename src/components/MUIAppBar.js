@@ -27,7 +27,7 @@ export default function MUIAppBar() {
       <AppBar className={classes.appBar} position="static">
         <Toolbar variant="regular">
           <Typography className={classes.typography} variant="h5">
-            Duolinglo Wordsearch
+            Duolingo Wordsearch
           </Typography>
         </Toolbar>
       </AppBar>
