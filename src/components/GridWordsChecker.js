@@ -24,16 +24,7 @@ class GridWordsChecker extends React.Component {
     this.onMouseUpOut = this.onMouseUpOut.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
 
-    this.context = null // this will be initializaed in componentDidMount()
-  }
-
-  componentDidMount() {
-    this.context = this.refs.canvas.getContext("2d")
-    
-    //offset because of the margins
-    const boundingRect = this.refs.canvas.getBoundingClientRect();
-    this.props.gridStore.offsetX = boundingRect.left; 
-    this.props.gridStore.offsetY = boundingRect.top; 
+    this.canvasRef = React.createRef(); 
   }
 
   //turn on the coloring hints
@@ -58,7 +49,8 @@ class GridWordsChecker extends React.Component {
     e.preventDefault();
     e.stopPropagation();
 
-    this.resetCanvas();
+    const ctx = this.canvasRef ? this.canvasRef.current.getContext('2d') : {};
+    this.resetCanvas(ctx);
 
     const {offsetX, offsetY} = this.props.gridStore;
   
@@ -69,7 +61,8 @@ class GridWordsChecker extends React.Component {
       
       const {x, y, canvasX, canvasY} = this.props.gridStore.getNearestCoordinates(currX, currY);
       if (canvasX && canvasY && this.props.gridStore.isValidPath(x, y, this.props.gridStore.start.x, this.props.gridStore.start.y)) {
-        this.drawHighlights(this.props.gridStore.start.canvasX, 
+        this.drawHighlights(ctx,
+          this.props.gridStore.start.canvasX, 
           this.props.gridStore.start.canvasY, 
           canvasX, 
           canvasY);
@@ -84,7 +77,8 @@ class GridWordsChecker extends React.Component {
     e.preventDefault();
     e.stopPropagation();
 
-    this.resetCanvas();
+    const ctx = this.canvasRef ? this.canvasRef.current.getContext('2d') : {};
+    this.resetCanvas(ctx);
 
     this.props.gridStore.isDown = false;
     const {offsetX, offsetY} = this.props.gridStore;
@@ -95,8 +89,7 @@ class GridWordsChecker extends React.Component {
     this.props.gridStore.end = this.props.gridStore.getNearestCoordinates(endX, endY);
   }
 
-  drawHighlights(startX, startY, endX, endY) {
-    const ctx = this.context;
+  drawHighlights(ctx, startX, startY, endX, endY) {
     ctx.lineCap = "round";
     ctx.lineWidth=20;
     ctx.font='14px Roboto';
@@ -110,9 +103,8 @@ class GridWordsChecker extends React.Component {
     ctx.stroke();
   }
 
-  resetCanvas() {
-    const ctx = this.context;
-    ctx.clearRect(0, 0, this.refs.canvas.width, this.refs.canvas.height);
+  resetCanvas(ctx) {
+    ctx.clearRect(0, 0, 400, 400);
   }
 
   render() {
@@ -123,7 +115,7 @@ class GridWordsChecker extends React.Component {
             onMouseUp={this.onMouseUpOut}
             onMouseOut={this.onMouseUpOut}
             onMouseMove={this.onMouseMove}
-            ref="canvas" 
+            ref={this.canvasRef}
             width={400} 
             height={400}/>
     );
