@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 
 const styles = theme => ({
@@ -78,7 +79,7 @@ class GridWordsChecker extends React.Component {
     e.stopPropagation();
 
     const ctx = this.canvasRef ? this.canvasRef.current.getContext('2d') : {};
-    this.resetCanvas(ctx);
+    // this.resetCanvas(ctx);
 
     this.props.gridStore.isDown = false;
     const {offsetX, offsetY} = this.props.gridStore;
@@ -86,7 +87,24 @@ class GridWordsChecker extends React.Component {
     const endX = parseInt(e.clientX-offsetX);
     const endY = parseInt(e.clientY-offsetY);
 
-    this.props.gridStore.end = this.props.gridStore.getNearestCoordinates(endX, endY);
+    
+    const end = this.props.gridStore.getNearestCoordinates(endX, endY);
+    this.props.gridStore.end = end;
+
+
+    const {start, currentSolutions} = this.props.gridStore;
+
+    if (start && end) {
+      Object.keys(currentSolutions).forEach(currentSolution => {
+        if ( (start.x === parseInt(currentSolution.charAt(0))) 
+          && (start.y === parseInt(currentSolution.charAt(2)))  
+          && (end.x === parseInt(currentSolution.charAt(currentSolutions.length - 3))) 
+          && (end.y === parseInt(currentSolution.charAt(currentSolutions.length - 1))) )  {
+            console.log("enter");
+            this.props.gridStore.foundSolutions.add(currentSolution); //for (let item of this.props.gridStore.foundSolutions) console.log(item)
+        }
+      })
+    }
   }
 
   drawHighlights(ctx, startX, startY, endX, endY) {
