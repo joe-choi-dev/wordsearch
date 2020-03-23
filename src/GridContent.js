@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { inject, observer } from 'mobx-react';
 import GridWords from './components/GridWords';
 import GridWordsChecker from './components/GridWordsChecker';
+import GridWordSolutions from './components/GridWordSolutions';
 import MUIAppBar from './components/MUIAppBar';
 
 const styles = theme => ({
@@ -61,6 +62,7 @@ class GridContent extends React.Component {
         <MUIAppBar/>
         <div className={classes.canvasWrap}>
           <GridWordsChecker/>
+          <GridWordSolutions/>
           <GridWords/>
         </div>
         <div className={classes.targets}>

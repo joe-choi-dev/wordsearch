@@ -11,8 +11,8 @@ const styles = theme => ({
     'margin-left': '-200px',
     top: '5%',
     'margin-top': '20px',
-    'z-index': 1,
-    opacity: 0.5
+    'z-index': 2,
+    opacity: 0.3
   }
 });
   
@@ -101,7 +101,8 @@ class GridWordsChecker extends React.Component {
           && (end.x === parseInt(currentSolution.charAt(currentSolutions.length - 3))) 
           && (end.y === parseInt(currentSolution.charAt(currentSolutions.length - 1))) )  {
             console.log("enter");
-            this.props.gridStore.foundSolutions.add(currentSolution); //for (let item of this.props.gridStore.foundSolutions) console.log(item)
+            this.props.gridStore.foundSolutions.push(currentSolution); //for (let item of this.props.gridStore.foundSolutions) console.log(item)
+            for (let item of this.props.gridStore.foundSolutions) console.log(item)
         }
       })
     }

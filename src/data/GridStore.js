@@ -14,7 +14,7 @@ export class GridStore {
   @observable totalCurrentSolutions = "";
   @observable currentSolutions;
 
-  @observable foundSolutions = new Set();
+  @observable foundSolutions = []
 
   //coordinates
   @observable coordinates = []; //{x, y, canvasX, canvasY}
@@ -36,6 +36,7 @@ export class GridStore {
   @action
   loadNextWordView() {
     this.currentWordIndex++;
+    this.foundSolutions = [];
     return this.getWordSearchViews();
   }
   
