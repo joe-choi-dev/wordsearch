@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function MUIAppBar() {
+export default function MaterialAppBar() {
   const classes = useStyles();
 
   return (

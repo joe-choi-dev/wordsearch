@@ -6,7 +6,7 @@ import { inject, observer } from 'mobx-react';
 import GridWords from './components/GridWords';
 import GridWordsChecker from './components/GridWordsChecker';
 import GridWordSolutions from './components/GridWordSolutions';
-import MUIAppBar from './components/MUIAppBar';
+import MaterialAppBar from './components/MaterialAppBar';
 
 const styles = theme => ({
   contentHolder: {},
@@ -62,7 +62,7 @@ class GridContent extends React.Component {
 
     return (
       <div className={classes.contentHolder}>
-        <MUIAppBar/>
+        <MaterialAppBar/>
         {(!gridStore.isComplete) ? (
           <div>
             <div className={classes.canvasWrap}>
