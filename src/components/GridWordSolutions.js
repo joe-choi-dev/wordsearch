@@ -1,20 +1,8 @@
 /* eslint-disable */
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
 import { inject, observer } from 'mobx-react';
 import { reaction } from 'mobx';
-
-const styles = theme => ({
-  canvas: {
-    position: 'absolute',
-    left: '50%',
-    'margin-left': '-200px',
-    top: '5%',
-    'margin-top': '20px',
-    'z-index': 1,
-    opacity: 0.8
-  }
-});
+import '../styles/GridWordSolutions.scss';
 
 @inject("gridStore") @observer
 class GridWordSolutions extends React.Component {  
@@ -64,10 +52,8 @@ class GridWordSolutions extends React.Component {
   }
 
   render() {
-    const { classes }  = this.props;
-
     return (
-        <canvas className={classes.canvas} 
+        <canvas className="canvasSolutions"
             onMouseDown={this.onMouseDown}
             onMouseUp={this.onMouseUpOut}
             onMouseOut={this.onMouseUpOut}
@@ -79,4 +65,4 @@ class GridWordSolutions extends React.Component {
   }
 }
 
-export default withStyles(styles)(GridWordSolutions); 
+export default GridWordSolutions; 

@@ -1,20 +1,7 @@
 /* eslint-disable */
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
 import { inject, observer } from 'mobx-react';
-
-const styles = theme => ({
-  canvasWords: {
-    // margin: '10px',
-    position: 'absolute',
-    left: '50%',
-    'margin-left': '-200px',
-    top: '5%',
-    'margin-top': '20px',
-    'z-index': 0,
-    backgroundColor: "#B8F28A"
-  }
-});
+import '../styles/GridWords.scss';
   
 @inject("gridStore") @observer
 class GridWords extends React.Component {  
@@ -73,11 +60,11 @@ class GridWords extends React.Component {
   }
 
   render() {
-    const { classes, gridStore }  = this.props;
+    const { gridStore }  = this.props;
     const currentWordView = gridStore.currentWordView; //TODO: fix -- right now it just renders based on observable but isn't being used 
 
     return (
-        <canvas className={classes.canvasWords} 
+        <canvas className="canvasWords"
             ref={this.canvasRef}
             width={400} 
             height={400}/>
@@ -85,4 +72,4 @@ class GridWords extends React.Component {
   }
 }
 
-export default withStyles(styles)(GridWords);
+export default GridWords;

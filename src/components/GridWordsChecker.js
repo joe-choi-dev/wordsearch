@@ -1,20 +1,7 @@
 /* eslint-disable */
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
-
-const styles = theme => ({
-  canvas: {
-    position: 'absolute',
-    left: '50%',
-    'margin-left': '-200px',
-    top: '5%',
-    'margin-top': '20px',
-    'z-index': 2,
-    opacity: 0.3
-  }
-});
+import '../styles/GridWordsChecker.scss';
   
 @inject("gridStore") @observer
 class GridWordsChecker extends React.Component {  
@@ -134,9 +121,8 @@ class GridWordsChecker extends React.Component {
   }
 
   render() {
-    const { classes }  = this.props;
     return (
-        <canvas className={classes.canvas} 
+        <canvas className="canvas"
             onMouseDown={this.onMouseDown}
             onMouseUp={this.onMouseUpOut}
             onMouseOut={this.onMouseUpOut}
@@ -148,4 +134,4 @@ class GridWordsChecker extends React.Component {
   }
 }
 
-export default withStyles(styles)(GridWordsChecker);
+export default GridWordsChecker;
