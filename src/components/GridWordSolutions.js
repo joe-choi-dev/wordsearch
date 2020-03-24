@@ -12,7 +12,6 @@ const styles = theme => ({
     'margin-top': '20px',
     'z-index': 1,
     opacity: 0.8
-    // backgroundColor: 'blue'
   }
 });
 
