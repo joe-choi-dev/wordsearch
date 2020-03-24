@@ -93,14 +93,14 @@ class GridWordsChecker extends React.Component {
 
 
     const {start, currentSolutions} = this.props.gridStore;
+    for (let item of Object.keys(currentSolutions)) console.log('current: ' + item)
 
     if (start && end) {
       Object.keys(currentSolutions).forEach(currentSolution => {
         if ( (start.x === parseInt(currentSolution.charAt(0))) 
           && (start.y === parseInt(currentSolution.charAt(2)))  
-          && (end.x === parseInt(currentSolution.charAt(currentSolutions.length - 3))) 
-          && (end.y === parseInt(currentSolution.charAt(currentSolutions.length - 1))) )  {
-            console.log("enter");
+          && (end.x === parseInt(currentSolution.charAt(currentSolution.length - 3))) 
+          && (end.y === parseInt(currentSolution.charAt(currentSolution.length - 1))) )  {
             this.props.gridStore.foundSolutions.push(currentSolution); //for (let item of this.props.gridStore.foundSolutions) console.log(item)
             for (let item of this.props.gridStore.foundSolutions) console.log(item)
         }

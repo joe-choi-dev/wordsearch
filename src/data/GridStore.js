@@ -1,4 +1,4 @@
-import {observable, action} from 'mobx';
+import {observable, action, computed} from 'mobx';
 import WordSearchService from './WordSearchService';
 
 export class GridStore {
@@ -12,9 +12,10 @@ export class GridStore {
   // @observable currentCharacterGrid = [];
   @observable currentWord = "";
   @observable totalCurrentSolutions = "";
-  @observable currentSolutions;
+  @observable currentSolutions; //OBJECT
 
-  @observable foundSolutions = []
+  @observable foundSolutions = [];
+  @observable drawnSolutions = [];
 
   //coordinates
   @observable coordinates = []; //{x, y, canvasX, canvasY}
@@ -36,17 +37,20 @@ export class GridStore {
   @action
   loadNextWordView() {
     this.currentWordIndex++;
-    this.foundSolutions = [];
+    this.foundSolutions.clear();
+    this.drawnSolutions.clear();
     return this.getWordSearchViews();
   }
-  
+
+  @computed get foundAllSolutions() {
+    return this.foundSolutions.length === this.totalCurrentSolutions;
+  }
+
   @action
   getWordSearchViews() {
     this.wordSearchViews = this.wordSearchService.getWordSearchViews();
-    // console.log(this.wordSearchViews);
-    this.currentWordView = this.wordSearchViews[this.currentWordIndex];
-    // this.currentCharacterGrid = this.currentWordView.character_grid;
 
+    this.currentWordView = this.wordSearchViews[this.currentWordIndex];
     this.currentSolutions = this.currentWordView.word_locations;
     this.totalCurrentSolutions = Object.keys(this.currentWordView.word_locations).length;
     this.currentWord = this.currentWordView.word;
