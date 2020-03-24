@@ -56,21 +56,28 @@ class GridContent extends React.Component {
     const { classes, gridStore }  = this.props;
 
     // console.log(gridStore.currentWord);
+    const instruction = (gridStore.totalCurrentSolutions > 1) ?
+      `Please find ${gridStore.totalCurrentSolutions} words in the wordsearch that mean "${gridStore.currentWord}"` 
+      : `Please find ${gridStore.totalCurrentSolutions} word in the wordsearch that means "${gridStore.currentWord}"`;
 
     return (
       <div className={classes.contentHolder}>
         <MUIAppBar/>
-        <div className={classes.canvasWrap}>
-          <GridWordsChecker/>
-          <GridWordSolutions/>
-          <GridWords/>
-        </div>
-        <div className={classes.targets}>
-          <p>Please find {gridStore.totalCurrentSolutions} word in the wordsearch that means "{gridStore.currentWord}"</p>
-          <Button onClick={this.onClickContinue} variant="outlined" className={classes.continueButton} color="primary" disabled={!gridStore.foundAllSolutions}>
-            Continue
-          </Button>
-        </div>
+        {(!gridStore.isComplete) ? (
+          <div>
+            <div className={classes.canvasWrap}>
+              <GridWordsChecker/>
+              <GridWordSolutions/>
+              <GridWords/>
+            </div>
+            <div className={classes.targets}>
+              <p>{instruction}</p>
+              <Button onClick={this.onClickContinue} variant="outlined" className={classes.continueButton} color="primary" disabled={!gridStore.foundAllSolutions}>
+                Continue
+              </Button>
+            </div>
+          </div>
+        ) : <h2>Complete!</h2>}
       </div>
     );
   }

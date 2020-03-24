@@ -3,16 +3,17 @@ import WordSearchService from './WordSearchService';
 
 export class GridStore {
 
+  @observable isComplete = false;
+
   //data
   @observable wordSearchViews = []; 
-
 
   @observable currentWordIndex = 0;
   @observable currentWordView;
   // @observable currentCharacterGrid = [];
   @observable currentWord = "";
   @observable totalCurrentSolutions = "";
-  @observable currentSolutions; //OBJECT
+  @observable currentSolutions;
 
   @observable foundSolutions = [];
   @observable drawnSolutions = [];
@@ -37,9 +38,13 @@ export class GridStore {
   @action
   loadNextWordView() {
     this.currentWordIndex++;
-    this.foundSolutions.clear();
-    this.drawnSolutions.clear();
-    return this.getWordSearchViews();
+    if (this.currentWordIndex > this.wordSearchViews.length-1) {
+      this.isComplete = true;
+    } else {
+      this.foundSolutions.clear();
+      this.drawnSolutions.clear();
+      return this.getWordSearchViews();
+    }
   }
 
   @computed get foundAllSolutions() {

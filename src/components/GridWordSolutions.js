@@ -48,7 +48,7 @@ class GridWordSolutions extends React.Component {
     ctx.globalAlpha= 0.25;
     ctx.fillStyle='blue';
 
-    ctx.beginPath(); //need to ensure canvas doens't still think ur drawing
+    ctx.beginPath();
     ctx.moveTo(startX, startY);
     ctx.lineTo(endX, endY);
     ctx.stroke();
