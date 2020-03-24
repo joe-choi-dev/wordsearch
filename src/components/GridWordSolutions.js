@@ -2,6 +2,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { inject, observer } from 'mobx-react';
+import { reaction } from 'mobx';
 
 const styles = theme => ({
   canvas: {
@@ -23,19 +24,24 @@ class GridWordSolutions extends React.Component {
     this.canvasRef = React.createRef(); 
   }
 
-  componentDidUpdate() {
-    const ctx = this.canvasRef ? this.canvasRef.current.getContext('2d') : {};
-    this.props.gridStore.foundSolutions && this.resetCanvas(ctx);
-
-    for (let item of this.props.gridStore.foundSolutions) {
-        const {start, end} = this.props.gridStore;
-
-        //don't redraw
-        if (!this.props.gridStore.drawnSolutions.includes(item)) {
-          this.drawHighlights(ctx, start.canvasX, start.canvasY, end.canvasX, end.canvasY);
-          this.props.gridStore.drawnSolutions.push(item);
+  componentDidMount() {
+    reaction(
+      () => this.props.gridStore.foundSolutions.length,
+      () => {
+        const ctx = this.canvasRef ? this.canvasRef.current.getContext('2d') : {};
+        this.props.gridStore.foundSolutions && this.resetCanvas(ctx);
+    
+        for (let item of this.props.gridStore.foundSolutions) {
+            const {start, end} = this.props.gridStore;
+    
+            //don't redraw
+            if (!this.props.gridStore.drawnSolutions.includes(item)) {
+              this.drawHighlights(ctx, start.canvasX, start.canvasY, end.canvasX, end.canvasY);
+              this.props.gridStore.drawnSolutions.push(item);
+            }
         }
-    }
+      }
+    );
   }
 
   drawHighlights(ctx, startX, startY, endX, endY) {
@@ -59,7 +65,6 @@ class GridWordSolutions extends React.Component {
 
   render() {
     const { classes }  = this.props;
-    for (let item of this.props.gridStore.foundSolutions) console.log('solutions : ', item)
 
     return (
         <canvas className={classes.canvas} 

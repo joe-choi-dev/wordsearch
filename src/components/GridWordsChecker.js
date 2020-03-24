@@ -79,7 +79,6 @@ class GridWordsChecker extends React.Component {
     e.stopPropagation();
 
     const ctx = this.canvasRef ? this.canvasRef.current.getContext('2d') : {};
-    // this.resetCanvas(ctx);
 
     this.props.gridStore.isDown = false;
     const {offsetX, offsetY} = this.props.gridStore;
@@ -93,7 +92,6 @@ class GridWordsChecker extends React.Component {
 
 
     let {start, currentSolutions} = this.props.gridStore;
-    for (let item of Object.keys(currentSolutions)) console.log('current: ' + item)
 
     if (start && end) {
       Object.keys(currentSolutions).forEach(currentSolution => {
@@ -101,8 +99,7 @@ class GridWordsChecker extends React.Component {
           && (start.y === parseInt(currentSolution.charAt(2)))  
           && (end.x === parseInt(currentSolution.charAt(currentSolution.length - 3))) 
           && (end.y === parseInt(currentSolution.charAt(currentSolution.length - 1))) )  {
-            this.props.gridStore.foundSolutions.push(currentSolution); //for (let item of this.props.gridStore.foundSolutions) console.log(item)
-            for (let item of this.props.gridStore.foundSolutions) console.log(item)
+            this.props.gridStore.foundSolutions.push(currentSolution); 
         }
       })
       start = end;
@@ -112,8 +109,7 @@ class GridWordsChecker extends React.Component {
           && (start.y === parseInt(currentSolution.charAt(2)))  
           && (end.x === parseInt(currentSolution.charAt(currentSolution.length - 3))) 
           && (end.y === parseInt(currentSolution.charAt(currentSolution.length - 1))) )  {
-            this.props.gridStore.foundSolutions.push(currentSolution); //for (let item of this.props.gridStore.foundSolutions) console.log(item)
-            for (let item of this.props.gridStore.foundSolutions) console.log(item)
+            this.props.gridStore.foundSolutions.push(currentSolution); 
         }
       })
     }

@@ -55,7 +55,6 @@ class GridContent extends React.Component {
   render() {
     const { classes, gridStore }  = this.props;
 
-    // console.log(gridStore.currentWord);
     const instruction = (gridStore.totalCurrentSolutions > 1) ?
       `Please find ${gridStore.totalCurrentSolutions} words in the wordsearch that mean "${gridStore.currentWord}"` 
       : `Please find ${gridStore.totalCurrentSolutions} word in the wordsearch that means "${gridStore.currentWord}"`;

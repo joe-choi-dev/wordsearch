@@ -44,7 +44,6 @@ class GridWords extends React.Component {
   }
 
   drawGrid(ctx) {
-    console.log("drawgrid");
     ctx.clearRect(0, 0, 400, 400);
     var letters = this.props.gridStore.currentWordView.character_grid.slice();  
 
