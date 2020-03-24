@@ -64,7 +64,7 @@ export class GridStore {
   getNearestCoordinates(x, y) {
     // console.log(this.wordSearchService.getWordSearchViews());
     const coords = this.coordinates.filter(function (entry) { 
-      return ((x > entry.canvasX-10) && (x < 10+entry.canvasX)) && ((y > entry.canvasY-10) && (y < 10+entry.canvasY)); 
+      return ((x > entry.canvasX-5) && (x < 5+entry.canvasX)) && ((y > entry.canvasY-5) && (y < 5+entry.canvasY)); 
     });
     if (coords.length > 0) 
       return coords[0] 
