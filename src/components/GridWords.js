@@ -41,7 +41,7 @@ class GridWords extends React.Component {
     
     ctx.lineCap = "round";
     ctx.lineWidth=20;
-    ctx.font='700 14px Roboto';
+    ctx.font='700 14px Ubuntu';
     ctx.textAlign='center';
     ctx.textBaseline='middle';
 

@@ -35,7 +35,7 @@ class GridWordSolutions extends React.Component {
   drawHighlights(ctx, startX, startY, endX, endY) {
     ctx.lineCap = "round";
     ctx.lineWidth=20;
-    ctx.font='14px Roboto';
+    ctx.font='14px Ubuntu';
     ctx.textAlign='center';
     ctx.textBaseline='middle';
     ctx.globalAlpha= 0.25;
