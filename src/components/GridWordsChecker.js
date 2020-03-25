@@ -14,9 +14,7 @@ class GridWordsChecker extends React.Component {
     this.canvasRef = React.createRef(); 
   }
 
-  //turn on the coloring hints
   onMouseDown(e){
-    // tell the browser we're handling this event
     e.preventDefault();
     e.stopPropagation();
 
@@ -30,7 +28,6 @@ class GridWordsChecker extends React.Component {
     this.props.gridStore.isDown = true;
   }
 
-  //turn on the coloring hints
   onMouseMove(e) {
     e.preventDefault();
     e.stopPropagation();
