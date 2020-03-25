@@ -1,20 +1,7 @@
-/* eslint-disable */
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import { reaction } from 'mobx';
 import { inject, observer } from 'mobx-react';
-
-const styles = theme => ({
-  canvasWords: {
-    // margin: '10px',
-    position: 'absolute',
-    left: '50%',
-    'margin-left': '-200px',
-    top: '5%',
-    'margin-top': '20px',
-    'z-index': 0,
-    backgroundColor: "#B8F28A"
-  }
-});
+import '../styles/GridWords.scss';
   
 @inject("gridStore") @observer
 class GridWords extends React.Component {  
@@ -32,19 +19,17 @@ class GridWords extends React.Component {
     const boundingRect = this.canvasRef.current.getBoundingClientRect();
     this.props.gridStore.offsetX = boundingRect.left; 
     this.props.gridStore.offsetY = boundingRect.top; 
-  }
 
-  componentDidUpdate() {
-    const ctx = this.canvasRef ? this.canvasRef.current.getContext('2d') : {};
-    this.drawGrid(ctx);
-    // offset because of the margins
-    const boundingRect = this.canvasRef.current.getBoundingClientRect();
-    this.props.gridStore.offsetX = boundingRect.left; 
-    this.props.gridStore.offsetY = boundingRect.top; 
+    reaction(
+      () => this.props.gridStore.currentWordView,
+      () => {
+        const ctx = this.canvasRef ? this.canvasRef.current.getContext('2d') : {};
+        this.drawGrid(ctx);
+      }
+    );
   }
 
   drawGrid(ctx) {
-    console.log("drawgrid");
     ctx.clearRect(0, 0, 400, 400);
     var letters = this.props.gridStore.currentWordView.character_grid.slice();  
 
@@ -55,7 +40,7 @@ class GridWords extends React.Component {
     
     ctx.lineCap = "round";
     ctx.lineWidth=20;
-    ctx.font='700 14px Roboto';
+    ctx.font='700 14px Ubuntu';
     ctx.textAlign='center';
     ctx.textBaseline='middle';
 
@@ -74,11 +59,8 @@ class GridWords extends React.Component {
   }
 
   render() {
-    const { classes, gridStore }  = this.props;
-    const currentWordView = gridStore.currentWordView; //TODO: fix -- right now it just renders based on observable but isn't being used 
-
     return (
-        <canvas className={classes.canvasWords} 
+        <canvas className="canvasWords"
             ref={this.canvasRef}
             width={400} 
             height={400}/>
@@ -86,4 +68,4 @@ class GridWords extends React.Component {
   }
 }
 
-export default withStyles(styles)(GridWords);
+export default GridWords;

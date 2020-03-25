@@ -1,20 +1,6 @@
-/* eslint-disable */
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
-
-const styles = theme => ({
-  canvas: {
-    position: 'absolute',
-    left: '50%',
-    'margin-left': '-200px',
-    top: '5%',
-    'margin-top': '20px',
-    'z-index': 2,
-    opacity: 0.3
-  }
-});
+import '../styles/GridWordsChecker.scss';
   
 @inject("gridStore") @observer
 class GridWordsChecker extends React.Component {  
@@ -28,9 +14,7 @@ class GridWordsChecker extends React.Component {
     this.canvasRef = React.createRef(); 
   }
 
-  //turn on the coloring hints
   onMouseDown(e){
-    // tell the browser we're handling this event
     e.preventDefault();
     e.stopPropagation();
 
@@ -40,12 +24,10 @@ class GridWordsChecker extends React.Component {
     if (start.canvasX && start.canvasY) {
       this.props.gridStore.start = start;
     }
-  
-    // Put your mousedown stuff here
+
     this.props.gridStore.isDown = true;
   }
 
-  //turn on the coloring hints
   onMouseMove(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -73,13 +55,8 @@ class GridWordsChecker extends React.Component {
 
   //verify if its correct
   onMouseUpOut(e){
-
-    // tell the browser we're handling this event
     e.preventDefault();
     e.stopPropagation();
-
-    const ctx = this.canvasRef ? this.canvasRef.current.getContext('2d') : {};
-    // this.resetCanvas(ctx);
 
     this.props.gridStore.isDown = false;
     const {offsetX, offsetY} = this.props.gridStore;
@@ -87,13 +64,10 @@ class GridWordsChecker extends React.Component {
     const endX = parseInt(e.clientX-offsetX);
     const endY = parseInt(e.clientY-offsetY);
 
-    
-    const end = this.props.gridStore.getNearestCoordinates(endX, endY);
+    let end = this.props.gridStore.getNearestCoordinates(endX, endY);
     this.props.gridStore.end = end;
 
-
-    const {start, currentSolutions} = this.props.gridStore;
-    for (let item of Object.keys(currentSolutions)) console.log('current: ' + item)
+    let {start, currentSolutions} = this.props.gridStore;
 
     if (start && end) {
       Object.keys(currentSolutions).forEach(currentSolution => {
@@ -101,8 +75,17 @@ class GridWordsChecker extends React.Component {
           && (start.y === parseInt(currentSolution.charAt(2)))  
           && (end.x === parseInt(currentSolution.charAt(currentSolution.length - 3))) 
           && (end.y === parseInt(currentSolution.charAt(currentSolution.length - 1))) )  {
-            this.props.gridStore.foundSolutions.push(currentSolution); //for (let item of this.props.gridStore.foundSolutions) console.log(item)
-            for (let item of this.props.gridStore.foundSolutions) console.log(item)
+            this.props.gridStore.foundSolutions.push(currentSolution); 
+        }
+      })
+      start = end;
+      end = this.props.gridStore.start;
+      Object.keys(currentSolutions).forEach(currentSolution => {
+        if ( (start.x === parseInt(currentSolution.charAt(0))) 
+          && (start.y === parseInt(currentSolution.charAt(2)))  
+          && (end.x === parseInt(currentSolution.charAt(currentSolution.length - 3))) 
+          && (end.y === parseInt(currentSolution.charAt(currentSolution.length - 1))) )  {
+            this.props.gridStore.foundSolutions.push(currentSolution); 
         }
       })
     }
@@ -111,7 +94,7 @@ class GridWordsChecker extends React.Component {
   drawHighlights(ctx, startX, startY, endX, endY) {
     ctx.lineCap = "round";
     ctx.lineWidth=20;
-    ctx.font='14px Roboto';
+    ctx.font='14px Ubuntu';
     ctx.textAlign='center';
     ctx.textBaseline='middle';
     ctx.globalAlpha= 0.25;
@@ -127,9 +110,8 @@ class GridWordsChecker extends React.Component {
   }
 
   render() {
-    const { classes }  = this.props;
     return (
-        <canvas className={classes.canvas} 
+        <canvas className="canvas"
             onMouseDown={this.onMouseDown}
             onMouseUp={this.onMouseUpOut}
             onMouseOut={this.onMouseUpOut}
@@ -141,4 +123,4 @@ class GridWordsChecker extends React.Component {
   }
 }
 
-export default withStyles(styles)(GridWordsChecker);
+export default GridWordsChecker;

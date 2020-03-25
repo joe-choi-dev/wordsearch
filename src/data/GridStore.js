@@ -7,10 +7,8 @@ export class GridStore {
 
   //data
   @observable wordSearchViews = []; 
-
   @observable currentWordIndex = 0;
   @observable currentWordView;
-  // @observable currentCharacterGrid = [];
   @observable currentWord = "";
   @observable totalCurrentSolutions = "";
   @observable currentSolutions;
@@ -18,16 +16,14 @@ export class GridStore {
   @observable foundSolutions = [];
   @observable drawnSolutions = [];
 
-  //coordinates
-  @observable coordinates = []; //{x, y, canvasX, canvasY}
-
-  // may eventually move to view state
+  //coordinates {x, y, canvasX, canvasY}
+  @observable coordinates = []; 
   @observable isDown = false;
 
   @observable offsetX;
   @observable offsetY;
 
-  @observable start; //{x, y, canvasX, canvasY}
+  @observable start; 
   @observable current;
   @observable end;
 
@@ -62,9 +58,8 @@ export class GridStore {
   }
 
   getNearestCoordinates(x, y) {
-    // console.log(this.wordSearchService.getWordSearchViews());
     const coords = this.coordinates.filter(function (entry) { 
-      return ((x > entry.canvasX-10) && (x < 10+entry.canvasX)) && ((y > entry.canvasY-10) && (y < 10+entry.canvasY)); 
+      return ((x > entry.canvasX-5) && (x < 5+entry.canvasX)) && ((y > entry.canvasY-5) && (y < 5+entry.canvasY)); 
     });
     if (coords.length > 0) 
       return coords[0] 

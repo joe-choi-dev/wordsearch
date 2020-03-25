@@ -1,5 +1,6 @@
 import React from 'react';
 import GridContent from './GridContent';
+import './styles/common.scss';
 import './App.css';
 import {Provider} from 'mobx-react';
 import * as store from './data/store.js';

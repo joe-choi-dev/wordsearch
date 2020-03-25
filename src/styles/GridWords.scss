@@ -1,0 +1,11 @@
+@import "./settings";
+
+.canvasWords {
+    position: absolute;
+    left: 50%;
+    margin-left: -200px;
+    top: 5%;
+    margin-top: 20px;
+    z-index: 0;
+    background-color: $light-green;
+}
