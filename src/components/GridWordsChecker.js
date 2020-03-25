@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import '../styles/GridWordsChecker.scss';
@@ -64,8 +63,6 @@ class GridWordsChecker extends React.Component {
     // tell the browser we're handling this event
     e.preventDefault();
     e.stopPropagation();
-
-    const ctx = this.canvasRef ? this.canvasRef.current.getContext('2d') : {};
 
     this.props.gridStore.isDown = false;
     const {offsetX, offsetY} = this.props.gridStore;

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import { reaction } from 'mobx';
 import { inject, observer } from 'mobx-react';
