@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React from 'react';
+import { reaction } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import '../styles/GridWords.scss';
   
@@ -19,15 +20,14 @@ class GridWords extends React.Component {
     const boundingRect = this.canvasRef.current.getBoundingClientRect();
     this.props.gridStore.offsetX = boundingRect.left; 
     this.props.gridStore.offsetY = boundingRect.top; 
-  }
 
-  componentDidUpdate() {
-    const ctx = this.canvasRef ? this.canvasRef.current.getContext('2d') : {};
-    this.drawGrid(ctx);
-    // offset because of the margins
-    const boundingRect = this.canvasRef.current.getBoundingClientRect();
-    this.props.gridStore.offsetX = boundingRect.left; 
-    this.props.gridStore.offsetY = boundingRect.top; 
+    reaction(
+      () => this.props.gridStore.currentWordView,
+      () => {
+        const ctx = this.canvasRef ? this.canvasRef.current.getContext('2d') : {};
+        this.drawGrid(ctx);
+      }
+    );
   }
 
   drawGrid(ctx) {
@@ -60,9 +60,6 @@ class GridWords extends React.Component {
   }
 
   render() {
-    const { gridStore }  = this.props;
-    const currentWordView = gridStore.currentWordView; //TODO: fix -- right now it just renders based on observable but isn't being used 
-
     return (
         <canvas className="canvasWords"
             ref={this.canvasRef}
